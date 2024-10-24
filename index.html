@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #333;
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .navbar a, .dropdown {
+            display: inline-block;
+            font-size: 18px;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            position: relative;
+        }
+
+        .dropdown .dropbtn {
+            font-size: 18px;
+            border: none;
+            outline: none;
+            color: white;
+            padding: 14px 20px;
+            background-color: inherit;
+            font-family: inherit;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .navbar a:hover, .dropdown:hover .dropbtn {
+            background-color: #555;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 20;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .fade-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center align items horizontally */
+            justify-content: center; /* Center align items vertically */
+            height: calc(100vh - 60px);
+            text-align: center;
+            padding: 20px;
+            background-image: url('bgimg.png');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            margin-top: 10px;
+            z-index: 1;
+        }
+
+        .fade-text {
+            font-size: 42px;
+            color: #ffffff;
+            font-weight: bold;
+            opacity: 0;
+            animation: fadeIn 2s ease-in-out forwards;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.75);
+            margin-bottom: 10px;
+            animation-delay: 0s; /* Fade in immediately */
+        }
+
+        .fade-image {
+            opacity: 0;
+            animation: fadeIn 2s ease-in-out forwards;
+            animation-delay: 2s; /* Delay the fade-in to start after the text */
+            width: 100px; /* Resize to 100 pixels */
+            height: 100px; /* Resize to 100 pixels */
+            object-fit: cover; /* Ensure the image covers the specified area */
+            margin-top: 20px; /* Add space above the image */
+            border-radius: 50%; /* Optional: Make the image circular */
+        }
+
+        #typewriter-container {
+            font-size: 36px;
+            color: #ffffff;
+            font-weight: bold;
+            opacity: 0;
+            animation: fadeIn 2s ease-in-out forwards;
+            animation-delay: 4s; /* Delay the fade-in to start after the image */
+        }
+
+        #typewriter {
+            display: inline;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        #cursor {
+            color: #ffffff;
+            animation: blink 1s linear infinite;
+        }
+
+        .additional-text {
+            font-size: 24px; /* Adjust as needed */
+            color: #ffffff;
+            opacity: 0;
+            animation: fadeIn 2s ease-in-out forwards;
+            animation-delay: 8s; /* Delay the fade-in to start after the typewriter text */
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.75);
+            margin-top: 100px; /* Position 100 pixels below the typewriter text */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes blink {
+            0% { opacity: 100%; }
+            50% { opacity: 0%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <a href="aboutme.html">About Me</a>
+    <div class="dropdown">
+      <button class="dropbtn">Projects 
+          <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-content">
+          <a href="pythonprojects.html">Python</a>
+          <a href="webdevprojects.html">HTML, CSS and JavaScript</a>
+      </div>
+    </div> 
+    <a href="contacts.html">Contact</a>
+</div>
+
+<!-- Fade-in animation container -->
+<div class="fade-container">
+    <span id="fade-text" class="fade-text">Hi, I'm Varun</span>
+    <img src="profilepic.jpeg" alt="Profile Picture" class="fade-image">
+    <div id="typewriter-container">
+        <span id="typewriter"></span><span id="cursor">|</span>
+    </div>
+    <span id="additional-text" class="additional-text">Please use the links in the navigation bar to navigate to the different pages.</span>
+</div>
+
+<script>
+    document.addEventListener('visibilitychange', () => {
+        const fadeTextElement = document.getElementById("fade-text");
+        if (document.hidden) {
+            fadeTextElement.style.animationPlayState = 'paused';
+        } else {
+            fadeTextElement.style.animationPlayState = 'running';
+        }
+    });
+
+    function sleep(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+    const phrases = ["Welcome to my portfolio website"];
+    const el = document.getElementById("typewriter");
+
+    let sleepTime = 100;
+    let curPhraseIndex = 0;
+
+    const writeLoop = async () => {
+        while (true) {
+            await sleep(2000); 
+
+            let curWord = phrases[curPhraseIndex];
+
+            for (let i = 0; i < curWord.length; i++) {
+                el.innerText = curWord.substring(0, i + 1);
+                await sleep(sleepTime);
+            }
+
+            await sleep(sleepTime * 10);
+
+            await sleep(600000);
+        }
+    };
+
+    writeLoop();
+</script>
+
+</body>
+</html>
